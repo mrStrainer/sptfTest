@@ -39,8 +39,8 @@ namespace sptfApiLib
         private static void auth_OnResponseReceivedEvent(AutorizationCodeAuthResponse response)
         {
 
-            //NEVER DO THIS! You would need to provide the ClientSecret.
-            //You would need to do it e.g via a PHP-Script.
+            //ClientSecret.
+            
             Token token = auth.ExchangeAuthCode(response.Code, "fbb43c1b8ff842698382999b13f4a0e2");
 
             var spotify = new SpotifyWebAPI()
