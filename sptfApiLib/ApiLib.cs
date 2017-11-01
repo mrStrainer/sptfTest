@@ -12,6 +12,7 @@ namespace sptfApiLib
     public class ApiLib
     {
         static AutorizationCodeAuth auth;
+        public static SpotifyWebAPI _spotify;
         public static void Authorize()
         {
             //Create the auth object
@@ -43,7 +44,7 @@ namespace sptfApiLib
             
             Token token = auth.ExchangeAuthCode(response.Code, "fbb43c1b8ff842698382999b13f4a0e2");
 
-            var spotify = new SpotifyWebAPI()
+            _spotify = new SpotifyWebAPI()
             {
                 TokenType = token.TokenType,
                 AccessToken = token.AccessToken
