@@ -12,7 +12,7 @@ namespace sptfApiLib
     public class ApiLib
     {
         static AutorizationCodeAuth auth;
-        static void Authorize()
+        public static void Authorize()
         {
             //Create the auth object
             auth = new AutorizationCodeAuth()
@@ -50,7 +50,7 @@ namespace sptfApiLib
             };
 
             //With the token object, you can now make API calls
-    
+            Console.WriteLine("Authorize complete, on response event going...");
             //Stop the HTTP Server, done.
             auth.StopHttpServer();
         }
