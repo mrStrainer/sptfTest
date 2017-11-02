@@ -1,10 +1,13 @@
 ﻿using System;
-using System.Net.Security;
 using System.Threading;
 using SpotifyAPI.Web;
 using SpotifyAPI.Web.Auth;
 using SpotifyAPI.Web.Enums;
 using SpotifyAPI.Web.Models;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net;
 
 
 namespace sptfApiLib
@@ -13,47 +16,55 @@ namespace sptfApiLib
     {
         static AutorizationCodeAuth auth;
         public static SpotifyWebAPI _spotify;
-        public static void Authorize()
-        {
-            //Create the auth object
-            auth = new AutorizationCodeAuth()
-            {
-                //Your client Id
-                ClientId = "45a81fcff87243e596ed0ad3916e9080",
-                //Set this to localhost if you want to use the built-in HTTP Server
-                RedirectUri = "http://localhost",
-                //How many permissions we need?
-                Scope = Scope.UserReadPrivate,
-            };
-            //This will be called, if the user cancled/accept the auth-request
-            auth.OnResponseReceivedEvent += auth_OnResponseReceivedEvent;
-            //a local HTTP Server will be started (Needed for the response)
-            auth.StartHttpServer();
-            //This will open the spotify auth-page. The user can decline/accept the request
-            auth.DoAuth();
 
-            Thread.Sleep(60000);
-            auth.StopHttpServer();
-            Console.WriteLine("Too long, didnt respond, exiting now...");
+        public static PrivateProfile _profile;
+        public static List<SimplePlaylist> _playlists;
+        public static async void RunAuthentication()
+        {
+            WebAPIFactory webApiFactory = new WebAPIFactory(
+                "http://localhost",
+                8000,
+                "26d287105e31491889f3cd293d85bfea",
+                Scope.UserReadPrivate | Scope.UserReadEmail | Scope.PlaylistReadPrivate | Scope.UserLibraryRead |
+                Scope.UserReadPrivate | Scope.UserFollowRead | Scope.UserReadBirthdate | Scope.UserTopRead | Scope.PlaylistReadCollaborative |
+                Scope.UserReadRecentlyPlayed | Scope.UserReadPlaybackState | Scope.UserModifyPlaybackState);
+
+            try
+            {
+                _spotify = await webApiFactory.GetWebApi();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            if (_spotify == null)
+                return;
+
+            InitialSetup();
         }
 
-        private static void auth_OnResponseReceivedEvent(AutorizationCodeAuthResponse response)
+        private static async void InitialSetup()
         {
-
-            //ClientSecret.
+            _profile = await _spotify.GetPrivateProfileAsync();
+            _playlists = GetPlaylists();
+            Console.WriteLine(_playlists.Count.ToString());
+            _playlists.ForEach(playlist => Console.WriteLine(playlist.Name));
             
-            Token token = auth.ExchangeAuthCode(response.Code, "fbb43c1b8ff842698382999b13f4a0e2");
-
-            _spotify = new SpotifyWebAPI()
-            {
-                TokenType = token.TokenType,
-                AccessToken = token.AccessToken
-            };
-
-            //With the token object, you can now make API calls
-            Console.WriteLine("Authorize complete, on response event going...");
-            //Stop the HTTP Server, done.
-            auth.StopHttpServer();
         }
+        private static List<SimplePlaylist> GetPlaylists()
+        {
+            Paging<SimplePlaylist> playlists = _spotify.GetUserPlaylists(_profile.Id);
+            List<SimplePlaylist> list = playlists.Items.ToList();
+
+            while (playlists.Next != null)
+            {
+                playlists = _spotify.GetUserPlaylists(_profile.Id, 20, playlists.Offset + playlists.Limit);
+                list.AddRange(playlists.Items);
+            }
+
+            return list;
+        }
+        
     }
 }
