@@ -9,19 +9,14 @@ namespace sptfTest
 {
     internal class Program
     {
-        //private static PrivateProfile _profile;
-
-       
-        
         public static void Main(string[] args)
         {
             ApiLib.RunAuthentication();
             
-            if (ApiLib._spotify != null)
+            /*if (ApiLib._spotify != null)
             {
                 Console.WriteLine("Auth success."); 
-            }
-            Console.WriteLine("Profile:");
+            }*/
             Console.ReadLine();
         }
     }

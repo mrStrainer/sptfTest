@@ -18,9 +18,10 @@ namespace sptfApiLib
         static AutorizationCodeAuth auth;
         public static SpotifyWebAPI _spotify;
 
-        public static PrivateProfile _profile;
-        public static List<SimplePlaylist> _playlists;
+        private static PrivateProfile _profile;
+        private static List<SimplePlaylist> _playlists;
         public static Paging<PlaylistTrack> _aPlaylistsTracks;
+        private static FullPlaylist newPlaylist;
         public static async void RunAuthentication()
         {
             WebAPIFactory webApiFactory = new WebAPIFactory(
@@ -29,7 +30,7 @@ namespace sptfApiLib
                 "26d287105e31491889f3cd293d85bfea",
                 Scope.UserReadPrivate | Scope.UserReadEmail | Scope.PlaylistReadPrivate | Scope.UserLibraryRead |
                 Scope.UserReadPrivate | Scope.UserFollowRead | Scope.UserReadBirthdate | Scope.UserTopRead | Scope.PlaylistReadCollaborative |
-                Scope.UserReadRecentlyPlayed | Scope.UserReadPlaybackState | Scope.UserModifyPlaybackState);
+                Scope.UserReadRecentlyPlayed | Scope.UserReadPlaybackState | Scope.UserModifyPlaybackState| Scope.PlaylistModifyPublic);
 
             try
             {
@@ -48,26 +49,38 @@ namespace sptfApiLib
 
         private static async void InitialSetup()
         {
+            //getting the user profile
             _profile = await _spotify.GetPrivateProfileAsync();
+            Console.WriteLine("Profile:");
             Console.WriteLine($"Name: { _profile.Id }" );
             Console.WriteLine($"Email: { _profile.Email } ");
             Console.WriteLine($"Birth-date: { _profile.Birthdate }");
+            Console.WriteLine("--------------------------------");
+            //getting the user playlists
             _playlists = GetPlaylists();
-            Console.WriteLine($"Number of Playlists: { _playlists.Count }");
+            Console.WriteLine($"Number of Playlists: { _playlists.Count } \n");
+            var k = 1;
             _playlists.ForEach(playlist =>
             {
-                Console.WriteLine($"{playlist.Id}: {playlist.Name}");
                 var trackList = GetTracks(playlist.Id);
+                Console.WriteLine($"{ k }: {playlist.Name} - {trackList.Count}");
+                //getting the tracks in each playlist
                 trackList.ForEach(track =>
                 {
-                    track.Track.Artists.ForEach(artist => Console.Write(artist.Name));
-                    Console.Write($" - {track.Track.Name}");
+                    Console.Write("\t");
+                    track.Track.Artists.ForEach(artist => Console.Write(artist.Name+" "));
+                    Console.Write($"- {track.Track.Name} \n");
                 });
+                k++;
             });
-            
-            
+            //to create a new playlist
+            //newPlaylist = CreatePlaylist("third playlist");
+            //newPlaylist = await _spotify.CreatePlaylistAsync(_profile.Id, "Console playlist", true);
+            //Console.WriteLine(newPlaylist.Name);
+            //_playlists = GetPlaylists();
+
         }
-        
+        // get all the users playlists and put it in a list
         private static List<SimplePlaylist> GetPlaylists()
         {
             Paging<SimplePlaylist> playlists = _spotify.GetUserPlaylists(_profile.Id);
@@ -81,7 +94,7 @@ namespace sptfApiLib
 
             return list;
         }
-
+        // get all the track of a playlist, and put it in a list
         private static List<PlaylistTrack> GetTracks(string Id)
         {
             Paging<PlaylistTrack> tracks = _spotify.GetPlaylistTracks(_profile.Id, Id);
@@ -89,6 +102,11 @@ namespace sptfApiLib
             return list;
 
         }
-        
+        // create a playlist with a specified name
+        private static FullPlaylist CreatePlaylist(string name)
+        {
+            return _spotify.CreatePlaylist(_profile.Id, name, true);
+        }
+
     }
 }
