@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Diagnostics;
 
 
 namespace sptfApiLib
@@ -19,6 +20,7 @@ namespace sptfApiLib
 
         public static PrivateProfile _profile;
         public static List<SimplePlaylist> _playlists;
+        public static Paging<PlaylistTrack> _aPlaylistsTracks;
         public static async void RunAuthentication()
         {
             WebAPIFactory webApiFactory = new WebAPIFactory(
@@ -35,7 +37,7 @@ namespace sptfApiLib
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine("Error: "+ex.Message);
             }
 
             if (_spotify == null)
@@ -47,11 +49,25 @@ namespace sptfApiLib
         private static async void InitialSetup()
         {
             _profile = await _spotify.GetPrivateProfileAsync();
+            Console.WriteLine($"Name: { _profile.Id }" );
+            Console.WriteLine($"Email: { _profile.Email } ");
+            Console.WriteLine($"Birth-date: { _profile.Birthdate }");
             _playlists = GetPlaylists();
-            Console.WriteLine(_playlists.Count.ToString());
-            _playlists.ForEach(playlist => Console.WriteLine(playlist.Name));
+            Console.WriteLine($"Number of Playlists: { _playlists.Count }");
+            _playlists.ForEach(playlist =>
+            {
+                Console.WriteLine($"{playlist.Id}: {playlist.Name}");
+                var trackList = GetTracks(playlist.Id);
+                trackList.ForEach(track =>
+                {
+                    track.Track.Artists.ForEach(artist => Console.Write(artist.Name));
+                    Console.Write($" - {track.Track.Name}");
+                });
+            });
+            
             
         }
+        
         private static List<SimplePlaylist> GetPlaylists()
         {
             Paging<SimplePlaylist> playlists = _spotify.GetUserPlaylists(_profile.Id);
@@ -64,6 +80,14 @@ namespace sptfApiLib
             }
 
             return list;
+        }
+
+        private static List<PlaylistTrack> GetTracks(string Id)
+        {
+            Paging<PlaylistTrack> tracks = _spotify.GetPlaylistTracks(_profile.Id, Id);
+            List<PlaylistTrack> list = tracks.Items.ToList();
+            return list;
+
         }
         
     }
