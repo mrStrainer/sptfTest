@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Diagnostics;
+using SpotifyAPI.Local.Models;
 
 
 namespace sptfApiLib
@@ -73,6 +74,19 @@ namespace sptfApiLib
                 });
                 k++;
             });
+            //search track -> show result list
+            //TODO
+            //other search results show
+            //select result
+            //add result to new playlist or continue search
+            List<FullTrack> searchResulTracks = searchTrack("King kunta");
+            searchResulTracks.ForEach(track =>
+            {
+                Console.Write("\t");
+                
+                track.Artists.ForEach(artist => Console.Write(artist.Name+" "));
+                Console.Write($"- {track.Name} \n");
+            });
             //to create a new playlist
             //newPlaylist = CreatePlaylist("third playlist");
             //newPlaylist = await _spotify.CreatePlaylistAsync(_profile.Id, "Console playlist", true);
@@ -108,5 +122,38 @@ namespace sptfApiLib
             return _spotify.CreatePlaylist(_profile.Id, name, true);
         }
 
+        private static void addTrack(FullPlaylist playlist, FullTrack track)
+        {
+            _spotify.AddPlaylistTrack(_profile.Id, playlist.Id, track.Uri);
+        }
+        
+        // search for a track 
+        private static List<FullTrack> searchTrack(string q)
+        {//artist - 1,  album - 2,  track - 4, playlist - 8, all - 16
+            SearchItem searchItem = _spotify.SearchItems(q, SearchType.Track);
+            List<FullTrack> sList = searchItem.Tracks.Items.ToList();
+            return sList;
+        }
+        // search for artist
+        private static List<FullArtist> searchArtist(string q)
+        {//artist - 1,  album - 2,  track - 4, playlist - 8, all - 16
+            SearchItem searchItem = _spotify.SearchItems(q, SearchType.Artist);
+            List<FullArtist> aList = searchItem.Artists.Items.ToList();
+            return aList;
+        }
+        // search for album
+        private static List<SimpleAlbum> searchAlbum(string q)
+        {//artist - 1,  album - 2,  track - 4, playlist - 8, all - 16
+            SearchItem searchItem = _spotify.SearchItems(q, SearchType.Album);
+            List<SimpleAlbum> aList = searchItem.Albums.Items.ToList();
+            return aList;
+        }
+        // search for playlist
+        private static List<SimplePlaylist> searchPlaylist(string q)
+        {//artist - 1,  album - 2,  track - 4, playlist - 8, all - 16
+            SearchItem searchItem = _spotify.SearchItems(q, SearchType.Playlist);
+            List<SimplePlaylist> pList = searchItem.Playlists.Items.ToList();
+            return pList;
+        }
     }
 }

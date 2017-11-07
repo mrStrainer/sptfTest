@@ -12,11 +12,6 @@ namespace sptfTest
         public static void Main(string[] args)
         {
             ApiLib.RunAuthentication();
-            
-            /*if (ApiLib._spotify != null)
-            {
-                Console.WriteLine("Auth success."); 
-            }*/
             Console.ReadLine();
         }
     }
