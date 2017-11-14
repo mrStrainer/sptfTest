@@ -1,0 +1,10 @@
+C:\Users\RedJohn\Source\Repos\sptfTest2\sptfApiLib\bin\Debug\sptfApiLib.dll
+C:\Users\RedJohn\Source\Repos\sptfTest2\sptfApiLib\bin\Debug\sptfApiLib.pdb
+C:\Users\RedJohn\Source\Repos\sptfTest2\sptfApiLib\bin\Debug\Newtonsoft.Json.dll
+C:\Users\RedJohn\Source\Repos\sptfTest2\sptfApiLib\bin\Debug\SpotifyAPI.dll
+C:\Users\RedJohn\Source\Repos\sptfTest2\sptfApiLib\bin\Debug\Newtonsoft.Json.xml
+C:\Users\RedJohn\Source\Repos\sptfTest2\sptfApiLib\bin\Debug\SpotifyAPI.xml
+C:\Users\RedJohn\Source\Repos\sptfTest2\sptfApiLib\obj\Debug\sptfApiLib.csprojResolveAssemblyReference.cache
+C:\Users\RedJohn\Source\Repos\sptfTest2\sptfApiLib\obj\Debug\sptfApiLib.csproj.CoreCompileInputs.cache
+C:\Users\RedJohn\Source\Repos\sptfTest2\sptfApiLib\obj\Debug\sptfApiLib.dll
+C:\Users\RedJohn\Source\Repos\sptfTest2\sptfApiLib\obj\Debug\sptfApiLib.pdb

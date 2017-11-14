@@ -1,0 +1,16 @@
+C:\Users\RedJohn\source\repos\sptfTest2\WindowsFormTest\bin\Debug\WindowsFormTest.exe.config
+C:\Users\RedJohn\source\repos\sptfTest2\WindowsFormTest\bin\Debug\WindowsFormTest.exe
+C:\Users\RedJohn\source\repos\sptfTest2\WindowsFormTest\bin\Debug\WindowsFormTest.pdb
+C:\Users\RedJohn\source\repos\sptfTest2\WindowsFormTest\bin\Debug\sptfApiLib.dll
+C:\Users\RedJohn\source\repos\sptfTest2\WindowsFormTest\bin\Debug\SpotifyAPI.dll
+C:\Users\RedJohn\source\repos\sptfTest2\WindowsFormTest\bin\Debug\Newtonsoft.Json.dll
+C:\Users\RedJohn\source\repos\sptfTest2\WindowsFormTest\bin\Debug\sptfApiLib.pdb
+C:\Users\RedJohn\source\repos\sptfTest2\WindowsFormTest\bin\Debug\SpotifyAPI.xml
+C:\Users\RedJohn\source\repos\sptfTest2\WindowsFormTest\bin\Debug\Newtonsoft.Json.xml
+C:\Users\RedJohn\source\repos\sptfTest2\WindowsFormTest\obj\Debug\WindowsFormTest.csprojResolveAssemblyReference.cache
+C:\Users\RedJohn\source\repos\sptfTest2\WindowsFormTest\obj\Debug\WindowsFormTest.Form1.resources
+C:\Users\RedJohn\source\repos\sptfTest2\WindowsFormTest\obj\Debug\WindowsFormTest.Properties.Resources.resources
+C:\Users\RedJohn\source\repos\sptfTest2\WindowsFormTest\obj\Debug\WindowsFormTest.csproj.GenerateResource.Cache
+C:\Users\RedJohn\source\repos\sptfTest2\WindowsFormTest\obj\Debug\WindowsFormTest.csproj.CoreCompileInputs.cache
+C:\Users\RedJohn\source\repos\sptfTest2\WindowsFormTest\obj\Debug\WindowsFormTest.exe
+C:\Users\RedJohn\source\repos\sptfTest2\WindowsFormTest\obj\Debug\WindowsFormTest.pdb
