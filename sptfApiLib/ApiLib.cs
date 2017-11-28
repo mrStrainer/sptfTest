@@ -16,13 +16,14 @@ namespace sptfApiLib
 {
     public class ApiLib
     {
-        static AutorizationCodeAuth auth;
+        private static AutorizationCodeAuth _auth;
         public static SpotifyWebAPI _spotify;
 
         private static PrivateProfile _profile;
         private static List<SimplePlaylist> _playlists;
         public static Paging<PlaylistTrack> _aPlaylistsTracks;
         private static FullPlaylist newPlaylist;
+        
         public static async void RunAuthentication()
         {
             WebAPIFactory webApiFactory = new WebAPIFactory(
